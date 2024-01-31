@@ -16,8 +16,10 @@
 // I am first pehle print hoga then file ka data print hoga because file read karne me time lagta hai aur asynchread hai
 // console.log("I am first");
 
-const http = require("http");
+import http from "http";
+import gfName from "./features.js";
 
+console.log(gfName);
 const server = http.createServer((req, res) => {
   if (req.url === "/") {
     return res.end("<h1>Home Page</h1>");
