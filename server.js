@@ -55,22 +55,65 @@ const notes = require("./notes.js");
 // lodash ka naam kuch bhi rakh sakte ahi ye to bass usi tarah hai jaise hum log let x likhte hai iska naam change kar sakte hai koi dikkat nhi hai
 // Lodash ek simple package jo lots of function provide karta hai jisse hum server side pe har ek cheez k liye logic aur code likhne se bach sakte hai iska inbuilt function use karke
 
-var _ = require("lodash");
+// var _ = require("lodash");
 
-console.log("Server file is available");
+// console.log("Server file is available");
 
-var ageOfPerson = notes.age;
-console.log("The age of a person is :", ageOfPerson);
+// var ageOfPerson = notes.age;
+// console.log("The age of a person is :", ageOfPerson);
 
-var sum = notes.addNumber(ageOfPerson + 18, 12);
-console.log("Now the total sum of the number is: ", sum);
+// var sum = notes.addNumber(ageOfPerson + 18, 12);
+// console.log("Now the total sum of the number is: ", sum);
 
-var arrData = ["person", "person", 1, 2, 3, 4, 2, 1, "name", "age", 2];
+// var arrData = ["person", "person", 1, 2, 3, 4, 2, 1, "name", "age", 2];
 
-// Calculate the unique element in an array or we can say the remove the duplicate data
+// // Calculate the unique element in an array or we can say the remove the duplicate data
 
-var uniqueData = _.uniq(arrData);
-console.log(uniqueData);
+// var uniqueData = _.uniq(arrData);
+// console.log(uniqueData);
 
-console.log(_.isString(arrData[4]));
-console.log(_.isString("karn Tiwari"));
+// console.log(_.isString(arrData[4]));
+// console.log(_.isString("karn Tiwari"));
+
+//Conversion of jsonString to jsonObject
+
+// const jsonString = `{ "name": "karn", "age": 22 , "city": "Delhi" }`;
+
+// const jsonObject = JSON.parse(jsonString);
+// console.log(jsonObject);
+
+//Conversion of jsonObject to jsonString
+// const jsonObject = {
+//   name: "karn Tiwari",
+//   age: 22,
+//   city: "Gurgaon",
+//   state: "Haryana",
+// };
+
+// const jsonString = JSON.stringify(jsonObject);
+// console.log(jsonString);
+
+const express = require("express");
+const app = express();
+
+app.get("/", (req, res) => {
+  res.send(
+    "This is a get request in which server only provides the data and we are only reading the data"
+  );
+});
+
+app.get("/daal", (req, res) => {
+  res.send("This is a get request for daal");
+});
+
+app.get("/sabji", (req, res) => {
+  res.send("This is a get request for sabji");
+});
+
+app.get("/hotel", (req, res) => {
+  res.send("This is a get request for hotel");
+});
+
+app.listen(4000, "localhost", () => {
+  console.log("Server is running on port 4000");
+});
