@@ -71,3 +71,6 @@ var arrData = ["person", "person", 1, 2, 3, 4, 2, 1, "name", "age", 2];
 
 var uniqueData = _.uniq(arrData);
 console.log(uniqueData);
+
+console.log(_.isString(arrData[4]));
+console.log(_.isString("karn Tiwari"));
