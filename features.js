@@ -1,2 +1,2 @@
-const gfName = "Abhi";
-export default gfName;
+// const gfName = "Abhi";
+// export default gfName;
