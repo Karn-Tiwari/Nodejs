@@ -51,7 +51,7 @@
 //   }
 // });
 
-const notes = require("./notes.js");
+// const notes = require("./notes.js");
 // lodash ka naam kuch bhi rakh sakte ahi ye to bass usi tarah hai jaise hum log let x likhte hai iska naam change kar sakte hai koi dikkat nhi hai
 // Lodash ek simple package jo lots of function provide karta hai jisse hum server side pe har ek cheez k liye logic aur code likhne se bach sakte hai iska inbuilt function use karke
 
@@ -95,25 +95,47 @@ const notes = require("./notes.js");
 
 const express = require("express");
 const app = express();
+const db = require("./db.js");
 
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
+
+const Person = require("./models/person.js");
 app.get("/", (req, res) => {
   res.send(
-    "This is a get request in which server only provides the data and we are only reading the data"
+    "This is a get request in which server only provides the data and we are only reading the data... and Thankyou"
   );
 });
 
-app.get("/daal", (req, res) => {
-  res.send("This is a get request for daal");
+//POST route to add a person
+app.post("/person", async (req, res) => {
+  try {
+    const data = req.body;
+
+    //create a new person using the data
+    const newPerson = new Person(data);
+
+    const response = await newPerson.save();
+    console.log("data is saved");
+    res.status(200).json(response);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Internal Server Error", error: err });
+  }
 });
 
-app.get("/sabji", (req, res) => {
-  res.send("This is a get request for sabji");
+//GET method to get the person
+app.get("/person", async (req, res) => {
+  try {
+    const data = await Person.find();
+    console.log("data is fetched");
+    res.status(200).json(data);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Internal Server Error", error: err });
+  }
 });
 
-app.get("/hotel", (req, res) => {
-  res.send("This is a get request for hotel");
-});
-
-app.listen(4000, "localhost", () => {
-  console.log("Server is running on port 4000");
+app.listen(8000, "localhost", () => {
+  console.log("Server is running on port 8000");
 });
