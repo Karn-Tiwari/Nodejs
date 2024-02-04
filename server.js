@@ -107,35 +107,17 @@ app.get("/", (req, res) => {
   );
 });
 
-//POST route to add a person
-app.post("/person", async (req, res) => {
-  try {
-    const data = req.body;
-
-    //create a new person using the data
-    const newPerson = new Person(data);
-
-    const response = await newPerson.save();
-    console.log("data is saved");
-    res.status(200).json(response);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Internal Server Error", error: err });
-  }
+const MenuItem = require("./models/MenuItem.js");
+app.get("/menuItem", (req, res) => {
+  res.send("This is a get request for the menu");
 });
 
-//GET method to get the person
-app.get("/person", async (req, res) => {
-  try {
-    const data = await Person.find();
-    console.log("data is fetched");
-    res.status(200).json(data);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Internal Server Error", error: err });
-  }
-});
+const menuRoutes = require("./routes/menuRoutes.js");
+app.use("/menu", menuRoutes);
 
+// Import the routes files
+const personRoutes = require("./routes/personRoutes.js");
+app.use("/person", personRoutes);
 app.listen(8000, "localhost", () => {
   console.log("Server is running on port 8000");
 });
