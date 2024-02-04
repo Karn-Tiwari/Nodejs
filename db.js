@@ -15,11 +15,13 @@
 // const db = mongoose.connection;
 
 const mongoose = require("mongoose");
-const MONGO_URI = "mongodb://localhost:27017/hotels";
+require("dotenv").config();
+//const MONGO_URI = "mongodb://localhost:27017/hotels";
 
+const MONGO_URL = process.env.MONGO_URI;
 const db = async () => {
   try {
-    const conn = await mongoose.connect(MONGO_URI, {
+    const conn = await mongoose.connect(MONGO_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });

@@ -96,6 +96,9 @@
 const express = require("express");
 const app = express();
 const db = require("./db.js");
+require("dotenv").config();
+
+const PORT = process.env.PORT || 8000;
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
@@ -118,6 +121,7 @@ app.use("/menu", menuRoutes);
 // Import the routes files
 const personRoutes = require("./routes/personRoutes.js");
 app.use("/person", personRoutes);
-app.listen(8000, "localhost", () => {
+
+app.listen(PORT, "localhost", () => {
   console.log("Server is running on port 8000");
 });
