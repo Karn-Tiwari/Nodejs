@@ -97,18 +97,51 @@ const express = require("express");
 const app = express();
 const db = require("./db.js");
 require("dotenv").config();
-
-const PORT = process.env.PORT || 8000;
-
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
-
-const Person = require("./models/person.js");
-app.get("/", (req, res) => {
-  res.send(
-    "This is a get request in which server only provides the data and we are only reading the data... and Thankyou"
+const Person = require("./models/Person.js");
+const PORT = process.env.PORT || 8000;
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+//Middleware Funtion
+const logRequest = (req, res, next) => {
+  console.log(
+    `[${new Date().toLocaleString()}] Request Made to: ${req.originalUrl}`
   );
-});
+  next(); //Move to the next middleware function or Next phase
+};
+
+app.use(logRequest); // humse sare logging routes pe laga diya iss syntax se
+
+passport.use(
+  new LocalStrategy(async (USERNAME, password, done) => {
+    try {
+      // console.log("Recieved credentials", USERNAME, password);
+      const user = await Person.findOne({ username: USERNAME });
+      if (!user) {
+        return done(null, false, { message: "Incorrect username" });
+      }
+      const isPasswordMatch = user.password === password ? true : false;
+      if (isPasswordMatch) {
+        return done(null, user);
+      } else {
+        return done(null, false, { message: "Incorrect password" });
+      }
+    } catch (err) {
+      return done(err);
+    }
+  })
+);
+
+passport.use(passport.initialize());
+
+app.get(
+  "/",
+  passport.authenticate("local", { session: false }),
+  function (req, res) {
+    res.send("Welcome to Hotel Management System");
+  }
+);
 
 const MenuItem = require("./models/MenuItem.js");
 app.get("/menuItem", (req, res) => {
